@@ -1,6 +1,6 @@
 
 - name: Install pipewire
-  apt:
+  community.general.pacman:
     name: 
           - pipewire
           - pipewire-audio

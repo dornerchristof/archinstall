@@ -1,3 +1,4 @@
+---
 #Exptexts User Arch Password Arch with sudo privilege
 #Steps before running the script
 #Installing openssh
@@ -54,12 +55,12 @@
       make:
         chdir: /home/chrisi/programs/st
         target: install
-    - name: Download dmenu programs starter etc.
+    - name: Download dmenu
       git:
         repo: https://github.com/dornerchristof/dmenu
         dest: /home/chrisi/programs/dmenu
       become: false  
-    - name: Install dmenu programs starter etc.
+    - name: Install dmenu
       make:
         chdir: /home/chrisi/programs/dmenu
         target: install
@@ -74,6 +75,10 @@
       make:
         chdir: /home/chrisi/programs/ly
         target: install
+    - name: Install ly display manager systemd 
+      make:
+        chdir: /home/chrisi/programs/ly
+        target: installsystemd 
     
     - name: Enable ly display manager
       systemd:

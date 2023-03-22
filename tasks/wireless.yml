@@ -1,3 +1,6 @@
+---
+
+#TODO Update to arch
 
 #use nmtui to connect to wireless connection
 - name: Install networkmanager

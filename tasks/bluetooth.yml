@@ -1,5 +1,5 @@
 ---
-
+#TODO Update to arch
 - name: Install bluez (bluetooth protocol stack)
   apt:
     name: bluez

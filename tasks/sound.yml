@@ -1,0 +1,10 @@
+
+- name: Install pipewire
+  apt:
+    name: 
+          - pipewire
+          - pipewire-audio
+          - pipewire-alsa
+          - pipewire-pulse
+          - pipewire-jack
+          - pulsemixer

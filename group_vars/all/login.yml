@@ -1,0 +1,4 @@
+
+ansible_user: chrisi
+ansible_password: chrisi
+ansible_become_password: chrisi

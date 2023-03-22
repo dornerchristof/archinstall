@@ -1,0 +1,5 @@
+
+#use nmtui to connect to wireless connection
+- name: Install networkmanager
+  apt:
+    name: network-manager

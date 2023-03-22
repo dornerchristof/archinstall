@@ -1,0 +1,156 @@
+#Exptexts User Arch Password Arch with sudo privilege
+#Steps before running the script
+#Installing openssh
+#Start sshd.service //openssh-server
+#Installing pyhton3
+
+
+- hosts: all
+  vars_files:  vars/config.yml
+  become: true
+  tasks:
+    - name: Install NeoVim
+      community.general.pacman: 
+        name: neovim 
+        state: present
+    - name: Install Core Utils
+      community.general.pacman: 
+        name: 
+          - man 
+          - git
+        state: present
+    - name: Install X11 
+      community.general.pacman:
+        name: 
+          - xorg
+          - xorg-xinit
+    #- name: Install suckless dependencies
+    #  community.general.pacman:
+    #    name:
+    #      - libxft
+    #      - libxinerama-dev
+    #      - libx11-dev
+    - name: Install Compositor and Window Manger
+      community.general.pacman:
+        name:
+          - picom #compositor
+          - xmonad
+          - xmonad-contrib
+          - xmobar
+
+    - name: create directory for programs
+      file:
+        path: ~/programs
+        state: directory   
+      become: false
+
+
+    - name: Download st terminal emulator
+      git:
+        repo: https://github.com/dornerchristof/st
+        dest: /home/chrisi/programs/st
+      become: false  
+    - name: Install st terminal emulator
+      make:
+        chdir: /home/chrisi/programs/st
+        target: install
+    - name: Download dmenu programs starter etc.
+      git:
+        repo: https://github.com/dornerchristof/dmenu
+        dest: /home/chrisi/programs/dmenu
+      become: false  
+    - name: Install dmenu programs starter etc.
+      make:
+        chdir: /home/chrisi/programs/dmenu
+        target: install
+    
+    - name: Clone ly display manager
+      git:
+        repo: https://github.com/fairyglade/ly
+        dest: /home/chrisi/programs/ly
+      become: false
+
+    - name: Install ly display manager
+      make:
+        chdir: /home/chrisi/programs/ly
+        target: install
+    
+    - name: Enable ly display manager
+      systemd:
+        enabled: true
+        name: ly.service
+
+    - name: Download dotfiles
+      git:
+        repo: https://github.com/dornerchristof/dotfiles
+        dest: /home/chrisi/.config
+      become: false  
+
+    - name: create .tmp folder for .Xauthority
+      file:
+        path: "~/.tmp"
+        state: directory
+      become: false
+
+    - name: Install zsh shell
+      community.general.pacman:
+        name: zsh
+
+    - name: Set zsh as default shell for root
+      shell:
+        cmd: "chsh -s /bin/zsh"
+    
+    - name: Set zsh as default shell for user
+      user:
+        name: chrisi
+        shell: /bin/zsh
+
+    - name: Syslink zshenv
+      file:
+        src: "/home/chrisi/.config/zsh/zshenv"
+        dest: "/etc/zsh/zshenv"
+        state: link 
+        force: true
+    
+    - name: Remove bash files from $HOME
+      file:
+        path: ~/.bash_profile 
+        state: absent
+      become: false  
+    
+    - name: Remove bash files from $HOME
+      file:
+        path: ~/.bash_logout
+        state: absent
+      become: false  
+
+    - name: Remove bash files from $HOME
+      file:
+        path: ~/.bashrc
+        state: absent
+      become: false  
+
+    - import_tasks: tasks/sound.yml
+
+    - name: Install firefox
+      community.general.pacman:
+        name: firefox
+    #- name: Install alsa-utils for alsamixer
+    #  community.general.pacman:
+    #    name: alsa-utils
+
+    - import_tasks: tasks/bluetooth.yml
+      when: bluetooth
+      
+    - import_tasks: tasks/wireless.yml
+      when: wireless
+    
+
+    - import_tasks: tasks/virtualisation.yml
+      when: virtualisation
+
+
+    
+    
+
+    

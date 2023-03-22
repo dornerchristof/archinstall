@@ -1,0 +1,6 @@
+---
+
+- name: Install bluez (bluetooth protocol stack)
+  apt:
+    name: bluez
+

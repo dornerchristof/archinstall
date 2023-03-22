@@ -1,0 +1,12 @@
+- name: Install KVM packages
+  apt:
+    name: 
+      - qemu-system
+      - libvirt-daemon-system
+      - virt-manager
+  
+- name: Add chrisi to libvirt group
+  user:
+    name: chrisi
+    groups: libvirt
+    append: true

@@ -1,5 +1,5 @@
 ---
-#Exptexts User Arch Password Arch with sudo privilege
+#Exptexts User chrisi Password chrisi with sudo privilege
 #Steps before running the script
 #Installing openssh
 #Start sshd.service //openssh-server
@@ -127,7 +127,13 @@
       file:
         path: ~/.bash_logout
         state: absent
-      become: false  
+      become: false 
+
+    - name: Remove bash files from $HOME
+      file:
+        path: ~/.bash_history
+        state: absent
+      become: false   
 
     - name: Remove bash files from $HOME
       file:
@@ -153,6 +159,11 @@
 
     - import_tasks: tasks/virtualisation.yml
       when: virtualisation
+
+    - name: Install Hack fonts
+      community.general.pacman: 
+        name: ttf-hack 
+        state: present
 
 
     

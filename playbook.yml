@@ -5,6 +5,7 @@
 #Start sshd.service //openssh-server
 #Installing pyhton3
 
+#Run script: ansible-playbook -i hosts playbook.yml
 
 - hosts: all
   vars_files:  vars/config.yml

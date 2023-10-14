@@ -19,6 +19,8 @@
         name: 
           - man 
           - git
+          - make
+          - pkg-config
         state: present
     - name: Install X11 
       community.general.pacman:
